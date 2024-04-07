@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 
-import 'package:dart_console2/dart_console2.dart';
+import 'package:dart_console/dart_console.dart';
 import 'package:test/test.dart';
 
 const earlyPresidents = [

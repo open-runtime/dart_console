@@ -1,10 +1,10 @@
 import 'dart:ffi';
-import 'package:ffi/ffi.dart';
 
+import 'package:ffi/ffi.dart';
 import 'package:win32/win32.dart';
 
 void main() {
-  final outputHandle = GetStdHandle(STD_HANDLE.STD_OUTPUT_HANDLE);
+  final outputHandle = GetStdHandle(STD_OUTPUT_HANDLE);
   print('Output handle (DWORD): $outputHandle');
 
   final pBufferInfo = calloc<CONSOLE_SCREEN_BUFFER_INFO>();

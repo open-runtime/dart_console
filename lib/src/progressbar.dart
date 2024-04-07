@@ -7,7 +7,7 @@
 
 import 'dart:math' as math;
 
-import '../dart_console2.dart';
+import '../dart_console.dart';
 
 /// A facility for drawing a progress bar in the terminal.
 ///

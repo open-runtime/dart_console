@@ -20,7 +20,7 @@ import 'textalignment.dart';
 /// for the underlying system representation (e.g. one-based for VT-style
 /// displays).
 class Coordinate extends Point<int> {
-  const Coordinate(int row, int col) : super(row, col);
+  const Coordinate(super.row, super.col);
 
   int get row => x;
   int get col => y;

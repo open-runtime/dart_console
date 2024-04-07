@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 
-import 'package:dart_console2/dart_console2.dart';
+import 'package:dart_console/dart_console.dart';
 
 final console = Console();
 final random = Random();

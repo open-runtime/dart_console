@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:math' show min;
 
-import 'package:dart_console2/dart_console2.dart';
+import 'package:dart_console/dart_console.dart';
 
 const kiloVersion = '0.0.3';
 const kiloTabStopLength = 4;

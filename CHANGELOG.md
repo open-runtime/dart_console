@@ -1,3 +1,6 @@
+# 4.0.0
+- Upgraded min sdk to 3.x. For ealier dart versions use the 3.x version of dart_console.
+
 # 3.1.1
 - reduced the win32 range and restore win32 constanst to values
 deprecated vy win32 5.4.0. Will leave the move to win 5.4.0 to a later date.
