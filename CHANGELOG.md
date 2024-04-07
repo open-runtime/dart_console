@@ -1,3 +1,6 @@
+# 4.0.1
+- accidently restricte the win32 package version. re-opened the supported range.
+
 # 4.0.0
 - Upgraded min sdk to 3.x. For ealier dart versions use the 3.x version of dart_console.
 
