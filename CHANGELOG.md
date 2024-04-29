@@ -1,3 +1,6 @@
+# 4.0.2
+- updated the repository link
+
 # 4.0.1
 - accidently restricted the win32 package version. re-opened the supported range.
 
