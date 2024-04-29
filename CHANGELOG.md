@@ -1,3 +1,6 @@
+# 4.1.0
+- opened the version range for intl to help make the pacakge more compatible.
+
 # 4.0.2
 - updated the repository link
 
