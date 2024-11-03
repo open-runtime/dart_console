@@ -1,3 +1,6 @@
+# 4.1.1
+- updated the homepage link to the correct url.
+
 # 4.1.0
 - opened the version range for intl to help make the pacakge more compatible.
 
