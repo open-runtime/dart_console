@@ -1,8 +1,14 @@
+# 4.1.1
+- updated the homepage link to the correct url.
+
+# 4.1.0
+- opened the version range for intl to help make the pacakge more compatible.
+
 # 4.0.2
 - updated the repository link
 
 # 4.0.1
-- accidently restricte the win32 package version. re-opened the supported range.
+- accidently restricted the win32 package version. re-opened the supported range.
 
 # 4.0.0
 - Upgraded min sdk to 3.x. For ealier dart versions use the 3.x version of dart_console.
