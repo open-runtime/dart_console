@@ -29,8 +29,7 @@ extension StringUtils on String {
     return outputText.toString().trimRight();
   }
 
-  String alignText(
-      {required int width, TextAlignment alignment = TextAlignment.left}) {
+  String alignText({required int width, TextAlignment alignment = TextAlignment.left}) {
     // We can't use the padLeft() and padRight() methods here, since they
     // don't account for ANSI escape sequences.
     switch (alignment) {
@@ -84,9 +83,7 @@ extension StringUtils on String {
     final buffer = StringBuffer();
     for (var c in characters) {
       final firstCodeUnit = c.codeUnits.first;
-      if (c.codeUnits.length == 1 &&
-          firstCodeUnit >= zeroCodeUnit &&
-          firstCodeUnit <= nineCodeUnit) {
+      if (c.codeUnits.length == 1 && firstCodeUnit >= zeroCodeUnit && firstCodeUnit <= nineCodeUnit) {
         buffer.write(replacementNumerals[firstCodeUnit - zeroCodeUnit]);
       } else {
         buffer.write(c);

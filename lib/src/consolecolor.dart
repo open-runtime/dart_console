@@ -27,6 +27,5 @@ enum ConsoleColor {
   final String ansiSetForegroundColorSequence;
   final String ansiSetBackgroundColorSequence;
 
-  const ConsoleColor(
-      this.ansiSetForegroundColorSequence, this.ansiSetBackgroundColorSequence);
+  const ConsoleColor(this.ansiSetForegroundColorSequence, this.ansiSetBackgroundColorSequence);
 }

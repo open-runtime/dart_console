@@ -27,10 +27,8 @@ void main() {
   console.write('stdin.readLineSync()');
   console.resetColorAttributes();
   console.writeLine(' method, you can use arrow keys as well as home/end.');
-  console.writeLine(
-      'In this demo, you can use the up-arrow key to scroll back to previous entries');
-  console.writeLine(
-      'and the down-arrow key to scroll forward after scrolling back.');
+  console.writeLine('In this demo, you can use the up-arrow key to scroll back to previous entries');
+  console.writeLine('and the down-arrow key to scroll forward after scrolling back.');
   console.writeLine();
 
   console.writeLine('As a demo, this command-line reader "shouts" all text '

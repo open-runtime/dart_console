@@ -71,8 +71,7 @@ void main() {
     test('Can add columns and make other changes after table is defined', () {
       final table = Table()
         ..insertColumn(header: 'Planet')
-        ..insertColumn(
-            header: 'Orbital Distance', alignment: TextAlignment.right)
+        ..insertColumn(header: 'Orbital Distance', alignment: TextAlignment.right)
         ..insertRows(planets)
         ..borderStyle = BorderStyle.square;
 
@@ -447,8 +446,7 @@ kumquats    59
         ..borderStyle = BorderStyle.rounded
         ..borderType = BorderType.grid
         ..insertColumn(header: 'Number', alignment: TextAlignment.center)
-        ..insertColumn(
-            header: 'Presidency', alignment: TextAlignment.right, width: 18)
+        ..insertColumn(header: 'Presidency', alignment: TextAlignment.right, width: 18)
         ..insertColumn(header: 'President')
         ..insertColumn(header: 'Party')
         ..insertRows(earlyPresidents);
@@ -478,8 +476,7 @@ kumquats    59
     test('Borders do not render when style is none', () {
       final table = Table()
         ..insertColumn(header: 'Planet')
-        ..insertColumn(
-            header: 'Orbital Distance', alignment: TextAlignment.right)
+        ..insertColumn(header: 'Orbital Distance', alignment: TextAlignment.right)
         ..insertRows(planets)
         ..headerStyle = FontStyle.boldUnderscore
         ..borderStyle = BorderStyle.none
@@ -502,8 +499,7 @@ Neptune  4.4983964 × 10⁹
     test('Outline table has rule line with right colors', () {
       final table = Table()
         ..insertColumn(header: 'Planet')
-        ..insertColumn(
-            header: 'Orbital Distance', alignment: TextAlignment.right)
+        ..insertColumn(header: 'Orbital Distance', alignment: TextAlignment.right)
         ..insertRows(planets)
         ..headerStyle = FontStyle.bold
         ..borderColor = ConsoleColor.brightRed

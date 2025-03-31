@@ -64,8 +64,7 @@ void crash(String message) {
   exit(1);
 }
 
-String truncateString(String text, int length) =>
-    length < text.length ? text.substring(0, length) : text;
+String truncateString(String text, int length) => length < text.length ? text.substring(0, length) : text;
 
 //
 // EDITOR OPERATIONS
@@ -75,9 +74,7 @@ void editorInsertChar(String char) {
     fileRows.add(char);
     renderRows.add(char);
   } else {
-    fileRows[cursorRow] = fileRows[cursorRow].substring(0, cursorCol) +
-        char +
-        fileRows[cursorRow].substring(cursorCol);
+    fileRows[cursorRow] = fileRows[cursorRow].substring(0, cursorCol) + char + fileRows[cursorRow].substring(cursorCol);
   }
   editorUpdateRenderRow(cursorRow);
   cursorCol++;
@@ -92,8 +89,7 @@ void editorBackspaceChar() {
   if (cursorCol == 0 && cursorRow == 0) return;
 
   if (cursorCol > 0) {
-    fileRows[cursorRow] = fileRows[cursorRow].substring(0, cursorCol - 1) +
-        fileRows[cursorRow].substring(cursorCol);
+    fileRows[cursorRow] = fileRows[cursorRow].substring(0, cursorCol - 1) + fileRows[cursorRow].substring(cursorCol);
     editorUpdateRenderRow(cursorRow);
     cursorCol--;
   } else {
@@ -126,16 +122,13 @@ void editorInsertNewline() {
 }
 
 void editorFindCallback(String query, Key key) {
-  if (key.controlChar == ControlCharacter.enter ||
-      key.controlChar == ControlCharacter.escape) {
+  if (key.controlChar == ControlCharacter.enter || key.controlChar == ControlCharacter.escape) {
     findLastMatchRow = -1;
     findDirection = FindDirection.forwards;
     return;
-  } else if (key.controlChar == ControlCharacter.arrowRight ||
-      key.controlChar == ControlCharacter.arrowDown) {
+  } else if (key.controlChar == ControlCharacter.arrowRight || key.controlChar == ControlCharacter.arrowDown) {
     findDirection = FindDirection.forwards;
-  } else if (key.controlChar == ControlCharacter.arrowLeft ||
-      key.controlChar == ControlCharacter.arrowUp) {
+  } else if (key.controlChar == ControlCharacter.arrowLeft || key.controlChar == ControlCharacter.arrowUp) {
     findDirection = FindDirection.backwards;
   } else {
     findLastMatchRow = -1;
@@ -164,11 +157,9 @@ void editorFindCallback(String query, Key key) {
       if (renderRows[currentRow].contains(query)) {
         findLastMatchRow = currentRow;
         cursorRow = currentRow;
-        cursorCol =
-            getFileCol(currentRow, renderRows[currentRow].indexOf(query));
+        cursorCol = getFileCol(currentRow, renderRows[currentRow].indexOf(query));
         screenFileRowOffset = fileRows.length;
-        editorSetStatusMessage(
-            'Search (ESC to cancel, use arrows for prev/next): $query');
+        editorSetStatusMessage('Search (ESC to cancel, use arrows for prev/next): $query');
         editorRefreshScreen();
         break;
       }
@@ -182,8 +173,7 @@ void editorFind() {
   final savedScreenFileRowOffset = screenFileRowOffset;
   final savedScreenRowColOffset = screenRowColOffset;
 
-  final query = editorPrompt(
-      'Search (ESC to cancel, use arrows for prev/next): ', editorFindCallback);
+  final query = editorPrompt('Search (ESC to cancel, use arrows for prev/next): ', editorFindCallback);
 
   if (query == null) {
     // Escape pressed
@@ -287,8 +277,7 @@ int getFileCol(int row, int renderCol) {
   final rowText = fileRows[row];
   for (fileCol = 0; fileCol < rowText.length; fileCol++) {
     if (rowText[fileCol] == '\t') {
-      currentRenderCol +=
-          (kiloTabStopLength - 1) - (currentRenderCol % kiloTabStopLength);
+      currentRenderCol += (kiloTabStopLength - 1) - (currentRenderCol % kiloTabStopLength);
     }
     currentRenderCol++;
 
@@ -355,8 +344,7 @@ void editorDrawRows() {
       // Show a welcome message
       if (fileRows.isEmpty && (screenRow == (editorWindowHeight / 3).round())) {
         // Print the welcome message centered a third of the way down the screen
-        final welcomeMessage = truncateString(
-            'Kilo editor -- version $kiloVersion', editorWindowWidth);
+        final welcomeMessage = truncateString('Kilo editor -- version $kiloVersion', editorWindowWidth);
         var padding = ((editorWindowWidth - welcomeMessage.length) / 2).round();
         if (padding > 0) {
           screenBuffer.write('~');
@@ -375,9 +363,7 @@ void editorDrawRows() {
     // trimmed if necessary
     else {
       if (renderRows[fileRow].length - screenRowColOffset > 0) {
-        screenBuffer.write(truncateString(
-            renderRows[fileRow].substring(screenRowColOffset),
-            editorWindowWidth));
+        screenBuffer.write(truncateString(renderRows[fileRow].substring(screenRowColOffset), editorWindowWidth));
       }
     }
 
@@ -406,10 +392,8 @@ void editorDrawStatusBar() {
 }
 
 void editorDrawMessageBar() {
-  if (DateTime.now().difference(messageTimestamp) <
-      const Duration(seconds: 5)) {
-    console.write(truncateString(messageText, editorWindowWidth)
-        .padRight(editorWindowWidth));
+  if (DateTime.now().difference(messageTimestamp) < const Duration(seconds: 5)) {
+    console.write(truncateString(messageText, editorWindowWidth).padRight(editorWindowWidth));
   }
 }
 
@@ -423,8 +407,7 @@ void editorRefreshScreen() {
   editorDrawStatusBar();
   editorDrawMessageBar();
 
-  console.cursorPosition = Coordinate(
-      cursorRow - screenFileRowOffset, cursorRenderCol - screenRowColOffset);
+  console.cursorPosition = Coordinate(cursorRow - screenFileRowOffset, cursorRenderCol - screenRowColOffset);
   console.showCursor();
 }
 
@@ -433,8 +416,7 @@ void editorSetStatusMessage(String message) {
   messageTimestamp = DateTime.now();
 }
 
-String? editorPrompt(String message,
-    [void Function(String text, Key lastPressed)? callback]) {
+String? editorPrompt(String message, [void Function(String text, Key lastPressed)? callback]) {
   final originalCursorRow = cursorRow;
 
   editorSetStatusMessage(message);
@@ -567,8 +549,7 @@ void main(List<String> arguments) {
       editorOpen(editedFilename);
     }
 
-    editorSetStatusMessage(
-        'HELP: Ctrl-S = save | Ctrl-Q = quit | Ctrl-F = find');
+    editorSetStatusMessage('HELP: Ctrl-S = save | Ctrl-Q = quit | Ctrl-F = find');
 
     while (true) {
       editorRefreshScreen();

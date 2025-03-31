@@ -8,15 +8,12 @@ import 'dart:io';
 import 'package:ffi/ffi.dart';
 
 // int tcgetattr(int, struct termios *);
-typedef TCGetAttrNative = Int32 Function(
-    Int32 fildes, Pointer<TermIOS> termios);
+typedef TCGetAttrNative = Int32 Function(Int32 fildes, Pointer<TermIOS> termios);
 typedef TCGetAttrDart = int Function(int fildes, Pointer<TermIOS> termios);
 
 // int tcsetattr(int, int, const struct termios *);
-typedef TCSetAttrNative = Int32 Function(
-    Int32 fildes, Int32 optional_actions, Pointer<TermIOS> termios);
-typedef TCSetAttrDart = int Function(
-    int fildes, int optional_actions, Pointer<TermIOS> termios);
+typedef TCSetAttrNative = Int32 Function(Int32 fildes, Int32 optional_actions, Pointer<TermIOS> termios);
+typedef TCSetAttrDart = int Function(int fildes, int optional_actions, Pointer<TermIOS> termios);
 
 const STDIN_FILENO = 0;
 const STDOUT_FILENO = 1;
@@ -112,14 +109,10 @@ base class TermIOS extends Struct {
 }
 
 void main() {
-  final libc = Platform.isMacOS
-      ? DynamicLibrary.open('/usr/lib/libSystem.dylib')
-      : DynamicLibrary.open('libc-2.28.so');
+  final libc = Platform.isMacOS ? DynamicLibrary.open('/usr/lib/libSystem.dylib') : DynamicLibrary.open('libc-2.28.so');
 
-  final tcgetattr =
-      libc.lookupFunction<TCGetAttrNative, TCGetAttrDart>('tcgetattr');
-  final tcsetattr =
-      libc.lookupFunction<TCSetAttrNative, TCSetAttrDart>('tcsetattr');
+  final tcgetattr = libc.lookupFunction<TCGetAttrNative, TCGetAttrDart>('tcgetattr');
+  final tcsetattr = libc.lookupFunction<TCSetAttrNative, TCSetAttrDart>('tcsetattr');
 
   final origTermIOS = calloc<TermIOS>();
   var result = tcgetattr(STDIN_FILENO, origTermIOS);
@@ -129,8 +122,7 @@ void main() {
   print('Copying and modifying...');
 
   final newTermIOS = calloc<TermIOS>()
-    ..ref.c_iflag =
-        origTermIOS.ref.c_iflag & ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON)
+    ..ref.c_iflag = origTermIOS.ref.c_iflag & ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON)
     ..ref.c_oflag = origTermIOS.ref.c_oflag & ~OPOST
     ..ref.c_cflag = origTermIOS.ref.c_cflag | CS8
     ..ref.c_lflag = origTermIOS.ref.c_lflag & ~(ECHO | ICANON | IEXTEN | ISIG)

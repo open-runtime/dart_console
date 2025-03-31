@@ -55,8 +55,7 @@ class Console {
   // Create a named constructor specifically for scrolling consoles
   // Use `Console.scrolling(recordBlanks: false)` to omit blank lines
   // from console history
-  Console.scrolling({bool recordBlanks = true})
-      : _scrollbackBuffer = ScrollbackBuffer(recordBlanks: recordBlanks);
+  Console.scrolling({bool recordBlanks = true}) : _scrollbackBuffer = ScrollbackBuffer(recordBlanks: recordBlanks);
 
   /// Enables or disables raw mode.
   ///
@@ -104,8 +103,7 @@ class Console {
   /// If we are on Windows, Unicode emojis are supported in Windows Terminal,
   /// which sets the WT_SESSION environment variable. See:
   /// https://github.com/microsoft/terminal/issues/1040
-  bool get supportsEmoji =>
-      !Platform.isWindows || Platform.environment.containsKey('WT_SESSION');
+  bool get supportsEmoji => !Platform.isWindows || Platform.environment.containsKey('WT_SESSION');
 
   /// Clears the entire screen
   void clearScreen() {
@@ -217,8 +215,7 @@ class Console {
       print(' coords.length: ${coords.length}');
       return null;
     }
-    if ((int.tryParse(coords[0]) != null) &&
-        (int.tryParse(coords[1]) != null)) {
+    if ((int.tryParse(coords[0]) != null) && (int.tryParse(coords[1]) != null)) {
       return Coordinate(int.parse(coords[0]) - 1, int.parse(coords[1]) - 1);
     } else {
       print(' coords[0]: ${coords[0]}   coords[1]: ${coords[1]}');
@@ -265,8 +262,7 @@ class Console {
   /// the full set of colors. You may also run `examples/demo.dart` for this
   /// package, which provides a sample of each color in this list.
   void setForegroundExtendedColor(int colorValue) {
-    assert(colorValue >= 0 && colorValue <= 0xFF,
-        'Color must be a value between 0 and 255.');
+    assert(colorValue >= 0 && colorValue <= 0xFF, 'Color must be a value between 0 and 255.');
 
     stdout.write(ansiSetExtendedForegroundColor(colorValue));
   }
@@ -277,8 +273,7 @@ class Console {
   /// the full set of colors. You may also run `examples/demo.dart` for this
   /// package, which provides a sample of each color in this list.
   void setBackgroundExtendedColor(int colorValue) {
-    assert(colorValue >= 0 && colorValue <= 0xFF,
-        'Color must be a value between 0 and 255.');
+    assert(colorValue >= 0 && colorValue <= 0xFF, 'Color must be a value between 0 and 255.');
 
     stdout.write(ansiSetExtendedBackgroundColor(colorValue));
   }
@@ -343,11 +338,9 @@ class Console {
   }
 
   /// Writes a quantity of text to the console with padding to the given width.
-  void writeAligned(Object text,
-      [int? width, TextAlignment alignment = TextAlignment.left]) {
+  void writeAligned(Object text, [int? width, TextAlignment alignment = TextAlignment.left]) {
     final textAsString = text.toString();
-    stdout.write(textAsString.alignText(
-        width: width ?? textAsString.length, alignment: alignment));
+    stdout.write(textAsString.alignText(width: width ?? textAsString.length, alignment: alignment));
   }
 
   /// Reads a single key from the input, including a variety of control
@@ -615,9 +608,7 @@ class Console {
             if (index < buffer.length) {
               final bufferRightOfCursor = buffer.substring(index + 1);
               final nextSpace = bufferRightOfCursor.indexOf(' ');
-              index = nextSpace != -1
-                  ? min(index + nextSpace + 2, buffer.length)
-                  : buffer.length;
+              index = nextSpace != -1 ? min(index + nextSpace + 2, buffer.length) : buffer.length;
             }
             break;
           case ControlCharacter.home:
@@ -637,8 +628,7 @@ class Console {
             buffer += key.char;
             index++;
           } else {
-            buffer =
-                buffer.substring(0, index) + key.char + buffer.substring(index);
+            buffer = buffer.substring(0, index) + key.char + buffer.substring(index);
             index++;
           }
         }

@@ -100,14 +100,11 @@ class ProgressBar {
       return;
     }
     _tickCount++;
-    final fractionComplete =
-        math.max(0, _tickCount * _innerWidth ~/ maxValue - 1);
+    final fractionComplete = math.max(0, _tickCount * _innerWidth ~/ maxValue - 1);
     final remaining = _innerWidth - fractionComplete - 1;
-    final spinner =
-        showSpinner ? tickCharacters[_tickCount % tickCharacters.length] : ' ';
+    final spinner = showSpinner ? tickCharacters[_tickCount % tickCharacters.length] : ' ';
 
-    _printProgressBar(
-        '[${tickCharacters[0] * fractionComplete}$spinner${' ' * remaining}]');
+    _printProgressBar('[${tickCharacters[0] * fractionComplete}$spinner${' ' * remaining}]');
   }
 
   void _printProgressBar(String progressBar) {

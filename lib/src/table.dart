@@ -159,11 +159,7 @@ class Table {
   ///
   /// An index may be specified with a value from 0..[columns] to insert the
   /// column in a specific location.
-  void insertColumn(
-      {String header = '',
-      TextAlignment alignment = TextAlignment.left,
-      int width = 0,
-      int? index}) {
+  void insertColumn({String header = '', TextAlignment alignment = TextAlignment.left, int width = 0, int? index}) {
     final insertIndex = index ?? columns;
     _table[0].insert(insertIndex, header);
     _columnAlignments.insert(insertIndex, alignment);
@@ -217,8 +213,7 @@ class Table {
     if (_table[0].isEmpty) {
       _table[0] = List<String>.filled(row.length, '', growable: true);
       _columnAlignments.clear();
-      _columnAlignments.insertAll(
-          0, List<TextAlignment>.filled(columns, TextAlignment.left));
+      _columnAlignments.insertAll(0, List<TextAlignment>.filled(columns, TextAlignment.left));
       _columnWidths.clear();
       _columnWidths.insertAll(0, List<int>.filled(columns, 0));
       showHeader = false;
@@ -270,8 +265,7 @@ class Table {
   int _calculateTableWidth() {
     if (_table[0].isEmpty) return 0;
 
-    final columnWidths =
-        _calculateColumnWidths().reduce((value, element) => value + element);
+    final columnWidths = _calculateColumnWidths().reduce((value, element) => value + element);
 
     // Allow padding: either a single space between columns if no border, or
     // a padded vertical marker between columns.
@@ -290,8 +284,7 @@ class Table {
     return List<int>.generate(columns, (column) {
       int maxLength = 0;
       for (final row in _table) {
-        maxLength = max(
-            maxLength, row[column].toString().stripEscapeCharacters().length);
+        maxLength = max(maxLength, row[column].toString().stripEscapeCharacters().length);
       }
       return maxLength;
     }, growable: false);
@@ -315,9 +308,7 @@ class Table {
     } else {
       delimiter = [
         _borderGlyphs.horizontalLine,
-        borderType == BorderType.horizontal
-            ? _borderGlyphs.horizontalLine
-            : _borderGlyphs.teeDown,
+        borderType == BorderType.horizontal ? _borderGlyphs.horizontalLine : _borderGlyphs.teeDown,
         _borderGlyphs.horizontalLine,
       ].join();
     }
@@ -326,8 +317,7 @@ class Table {
       if (borderColor != null) borderColor!.ansiSetForegroundColorSequence,
       _borderGlyphs.topLeftCorner,
       _borderGlyphs.horizontalLine,
-      [for (final column in columnWidths) _borderGlyphs.horizontalLine * column]
-          .join(delimiter),
+      [for (final column in columnWidths) _borderGlyphs.horizontalLine * column].join(delimiter),
       _borderGlyphs.horizontalLine,
       _borderGlyphs.topRightCorner,
       if (borderColor != null) ansiResetColor,
@@ -360,21 +350,15 @@ class Table {
       borderType == BorderType.vertical ? ' ' : _borderGlyphs.horizontalLine,
     ].join();
 
-    final horizontalLine =
-        borderType == BorderType.vertical ? ' ' : _borderGlyphs.horizontalLine;
+    final horizontalLine = borderType == BorderType.vertical ? ' ' : _borderGlyphs.horizontalLine;
 
     return [
       if (borderColor != null) borderColor!.ansiSetForegroundColorSequence,
-      borderType == BorderType.vertical
-          ? _borderGlyphs.verticalLine
-          : _borderGlyphs.teeRight,
+      borderType == BorderType.vertical ? _borderGlyphs.verticalLine : _borderGlyphs.teeRight,
       horizontalLine,
-      [for (final column in columnWidths) horizontalLine * column]
-          .join(delimiter),
+      [for (final column in columnWidths) horizontalLine * column].join(delimiter),
       horizontalLine,
-      borderType == BorderType.vertical
-          ? _borderGlyphs.verticalLine
-          : _borderGlyphs.teeLeft,
+      borderType == BorderType.vertical ? _borderGlyphs.verticalLine : _borderGlyphs.teeLeft,
       if (borderColor != null) ansiResetColor,
       '\n',
     ].join();
@@ -390,9 +374,7 @@ class Table {
     } else {
       delimiter = [
         _borderGlyphs.horizontalLine,
-        borderType == BorderType.horizontal
-            ? _borderGlyphs.horizontalLine
-            : _borderGlyphs.teeUp,
+        borderType == BorderType.horizontal ? _borderGlyphs.horizontalLine : _borderGlyphs.teeUp,
         _borderGlyphs.horizontalLine,
       ].join();
     }
@@ -401,8 +383,7 @@ class Table {
       if (borderColor != null) borderColor!.ansiSetForegroundColorSequence,
       _borderGlyphs.bottomLeftCorner,
       _borderGlyphs.horizontalLine,
-      [for (final column in columnWidths) _borderGlyphs.horizontalLine * column]
-          .join(delimiter),
+      [for (final column in columnWidths) _borderGlyphs.horizontalLine * column].join(delimiter),
       _borderGlyphs.horizontalLine,
       _borderGlyphs.bottomRightCorner,
       if (borderColor != null) ansiResetColor,
@@ -451,8 +432,7 @@ class Table {
   String _setFontStyle(FontStyle style) {
     return ansiSetTextStyles(
         bold: (style == FontStyle.bold || style == FontStyle.boldUnderscore),
-        underscore: (style == FontStyle.underscore ||
-            style == FontStyle.boldUnderscore));
+        underscore: (style == FontStyle.underscore || style == FontStyle.boldUnderscore));
   }
 
   String _resetFontStyle() => ansiResetColor;
@@ -485,8 +465,7 @@ class Table {
       for (int column = 0; column < columns; column++) {
         // Wrap the text if there's a viable width
         if (column < _columnWidths.length && _columnWidths[column] > 0) {
-          wrappedRow.add(
-              _table[row][column].toString().wrapText(_columnWidths[column]));
+          wrappedRow.add(_table[row][column].toString().wrapText(_columnWidths[column]));
         } else {
           wrappedRow.add(_table[row][column].toString());
         }
@@ -500,9 +479,7 @@ class Table {
         for (int column = 0; column < columns; column++) {
           final lines = wrappedRow[column].toString().split('\n');
           final cell = line < lines.length ? lines[line] : '';
-          final columnAlignment = column < _columnAlignments.length
-              ? _columnAlignments[column]
-              : TextAlignment.left;
+          final columnAlignment = column < _columnAlignments.length ? _columnAlignments[column] : TextAlignment.left;
 
           // TODO: Only the text of a header should be underlined
 
@@ -513,10 +490,8 @@ class Table {
           if (row == 0 && headerColor != null) {
             buffer.write(headerColor!.ansiSetForegroundColorSequence);
           }
-          buffer.write(cell.alignText(
-              width: columnWidths[column], alignment: columnAlignment));
-          if (row == 0 &&
-              (headerStyle != FontStyle.normal || headerColor != null)) {
+          buffer.write(cell.alignText(width: columnWidths[column], alignment: columnAlignment));
+          if (row == 0 && (headerStyle != FontStyle.normal || headerColor != null)) {
             buffer.write(_resetFontStyle());
           }
 

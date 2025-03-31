@@ -32,14 +32,12 @@ void main() {
     final yellowAttr = ConsoleColor.brightYellow.ansiSetForegroundColorSequence;
     final yellowHello = yellowAttr + hello + ansiResetColor;
 
-    expect(yellowHello.stripEscapeCharacters().alignText(width: 7),
-        equals('Hello  '));
+    expect(yellowHello.stripEscapeCharacters().alignText(width: 7), equals('Hello  '));
   });
 
   test('Align odd length in even space', () {
     const char = 'c';
-    expect(char.alignText(width: 4, alignment: TextAlignment.center),
-        equals('  c '));
+    expect(char.alignText(width: 4, alignment: TextAlignment.center), equals('  c '));
   });
 
   test('Align color text single line centered', () {
@@ -53,10 +51,8 @@ void main() {
     final padding = ((paddedWidth - yellowHello.displayWidth) / 2).round();
     expect(padding, equals(1));
 
-    expect(yellowHello.stripEscapeCharacters().alignText(width: 7).length,
-        equals(7));
-    expect(yellowHello.alignText(width: 7, alignment: TextAlignment.center),
-        equals(' \x1B[93mHello\x1B[m '));
+    expect(yellowHello.stripEscapeCharacters().alignText(width: 7).length, equals(7));
+    expect(yellowHello.alignText(width: 7, alignment: TextAlignment.center), equals(' \x1B[93mHello\x1B[m '));
   });
 
   test('Strip escape characters', () {

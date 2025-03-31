@@ -41,8 +41,7 @@ class TermLibUnix implements TermLib {
     final origTermIOS = _origTermIOSPointer.ref;
 
     final newTermIOSPointer = calloc<TermIOS>()
-      ..ref.c_iflag =
-          origTermIOS.c_iflag & ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON)
+      ..ref.c_iflag = origTermIOS.c_iflag & ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON)
       ..ref.c_oflag = origTermIOS.c_oflag & ~OPOST
       ..ref.c_cflag = (origTermIOS.c_cflag & ~CSIZE) | CS8
       ..ref.c_lflag = origTermIOS.c_lflag & ~(ECHO | ICANON | IEXTEN | ISIG)
@@ -64,14 +63,10 @@ class TermLibUnix implements TermLib {
   }
 
   TermLibUnix() {
-    _stdlib = Platform.isMacOS
-        ? DynamicLibrary.open('/usr/lib/libSystem.dylib')
-        : DynamicLibrary.open('libc.so.6');
+    _stdlib = Platform.isMacOS ? DynamicLibrary.open('/usr/lib/libSystem.dylib') : DynamicLibrary.open('libc.so.6');
 
-    tcgetattr =
-        _stdlib.lookupFunction<TCGetAttrNative, TCGetAttrDart>('tcgetattr');
-    tcsetattr =
-        _stdlib.lookupFunction<TCSetAttrNative, TCSetAttrDart>('tcsetattr');
+    tcgetattr = _stdlib.lookupFunction<TCGetAttrNative, TCGetAttrDart>('tcgetattr');
+    tcsetattr = _stdlib.lookupFunction<TCSetAttrNative, TCSetAttrDart>('tcsetattr');
 
     // store console mode settings so we can return them again as necessary
     _origTermIOSPointer = calloc<TermIOS>();
