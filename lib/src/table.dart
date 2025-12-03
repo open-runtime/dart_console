@@ -12,8 +12,20 @@ enum BorderType { outline, header, grid, vertical, horizontal }
 enum FontStyle { normal, bold, underscore, boldUnderscore }
 
 class BoxGlyphSet {
-  final String? glyphs;
   const BoxGlyphSet(this.glyphs);
+
+  factory BoxGlyphSet.none() => const BoxGlyphSet(null);
+
+  factory BoxGlyphSet.ascii() => const BoxGlyphSet('-|----+--||');
+
+  factory BoxGlyphSet.square() => const BoxGlyphSet('─│┌┐└┘┼┴┬┤├');
+
+  factory BoxGlyphSet.rounded() => const BoxGlyphSet('─│╭╮╰╯┼┴┬┤├');
+
+  factory BoxGlyphSet.bold() => const BoxGlyphSet('━┃┏┓┗┛╋┻┳┫┣');
+
+  factory BoxGlyphSet.double() => const BoxGlyphSet('═║╔╗╚╝╬╩╦╣╠');
+  final String? glyphs;
 
   String get horizontalLine => glyphs?[0] ?? '';
   String get verticalLine => glyphs?[1] ?? '';
@@ -26,30 +38,6 @@ class BoxGlyphSet {
   String get teeDown => glyphs?[8] ?? '';
   String get teeLeft => glyphs?[9] ?? '';
   String get teeRight => glyphs?[10] ?? '';
-
-  factory BoxGlyphSet.none() {
-    return BoxGlyphSet(null);
-  }
-
-  factory BoxGlyphSet.ascii() {
-    return BoxGlyphSet('-|----+--||');
-  }
-
-  factory BoxGlyphSet.square() {
-    return BoxGlyphSet('─│┌┐└┘┼┴┬┤├');
-  }
-
-  factory BoxGlyphSet.rounded() {
-    return BoxGlyphSet('─│╭╮╰╯┼┴┬┤├');
-  }
-
-  factory BoxGlyphSet.bold() {
-    return BoxGlyphSet('━┃┏┓┗┛╋┻┳┫┣');
-  }
-
-  factory BoxGlyphSet.double() {
-    return BoxGlyphSet('═║╔╗╚╝╬╩╦╣╠');
-  }
 }
 
 /// An experimental class for drawing tables. The API is not final yet.
@@ -68,8 +56,8 @@ class Table {
   // instead call methods like insertColumn, deleteRow, etc. to ensure that the
   // internal data structure remains consistent.
   final List<List<Object>> _table = [[]];
-  final List<TextAlignment> _columnAlignments = <TextAlignment>[];
-  final List<int> _columnWidths = <int>[];
+  final _columnAlignments = <TextAlignment>[];
+  final _columnWidths = <int>[];
 
   // Asserts that the internal table structure is consistent and that the _table
   // object is not ragged. This should be called after every function that
@@ -195,7 +183,7 @@ class Table {
       throw ArgumentError('index must be a valid column index');
     }
 
-    for (var row in _table) {
+    for (final row in _table) {
       row.removeAt(index);
     }
 
@@ -280,20 +268,18 @@ class Table {
     }
   }
 
-  List<int> _calculateColumnWidths() {
-    return List<int>.generate(columns, (column) {
-      int maxLength = 0;
+  List<int> _calculateColumnWidths() => List<int>.generate(columns, (column) {
+      var maxLength = 0;
       for (final row in _table) {
         maxLength = max(maxLength, row[column].toString().stripEscapeCharacters().length);
       }
       return maxLength;
     }, growable: false);
-  }
 
   int _calculateRowHeight(List<String> row) {
-    int maxHeight = 1;
+    var maxHeight = 1;
     for (final column in row) {
-      maxHeight = max(maxHeight, column.toString().split('\n').length);
+      maxHeight = max(maxHeight, column.split('\n').length);
     }
     return maxHeight;
   }
@@ -308,7 +294,7 @@ class Table {
     } else {
       delimiter = [
         _borderGlyphs.horizontalLine,
-        borderType == BorderType.horizontal ? _borderGlyphs.horizontalLine : _borderGlyphs.teeDown,
+        if (borderType == BorderType.horizontal) _borderGlyphs.horizontalLine else _borderGlyphs.teeDown,
         _borderGlyphs.horizontalLine,
       ].join();
     }
@@ -340,25 +326,25 @@ class Table {
     }
 
     final delimiter = [
-      borderType == BorderType.vertical ? ' ' : _borderGlyphs.horizontalLine,
+      if (borderType == BorderType.vertical) ' ' else _borderGlyphs.horizontalLine,
       if (borderType == BorderType.horizontal)
         _borderGlyphs.horizontalLine
       else if (borderType == BorderType.vertical)
         _borderGlyphs.verticalLine
       else
         _borderGlyphs.cross,
-      borderType == BorderType.vertical ? ' ' : _borderGlyphs.horizontalLine,
+      if (borderType == BorderType.vertical) ' ' else _borderGlyphs.horizontalLine,
     ].join();
 
     final horizontalLine = borderType == BorderType.vertical ? ' ' : _borderGlyphs.horizontalLine;
 
     return [
       if (borderColor != null) borderColor!.ansiSetForegroundColorSequence,
-      borderType == BorderType.vertical ? _borderGlyphs.verticalLine : _borderGlyphs.teeRight,
+      if (borderType == BorderType.vertical) _borderGlyphs.verticalLine else _borderGlyphs.teeRight,
       horizontalLine,
       [for (final column in columnWidths) horizontalLine * column].join(delimiter),
       horizontalLine,
-      borderType == BorderType.vertical ? _borderGlyphs.verticalLine : _borderGlyphs.teeLeft,
+      if (borderType == BorderType.vertical) _borderGlyphs.verticalLine else _borderGlyphs.teeLeft,
       if (borderColor != null) ansiResetColor,
       '\n',
     ].join();
@@ -374,7 +360,7 @@ class Table {
     } else {
       delimiter = [
         _borderGlyphs.horizontalLine,
-        borderType == BorderType.horizontal ? _borderGlyphs.horizontalLine : _borderGlyphs.teeUp,
+        if (borderType == BorderType.horizontal) _borderGlyphs.horizontalLine else _borderGlyphs.teeUp,
         _borderGlyphs.horizontalLine,
       ].join();
     }
@@ -429,11 +415,9 @@ class Table {
     ].join();
   }
 
-  String _setFontStyle(FontStyle style) {
-    return ansiSetTextStyles(
+  String _setFontStyle(FontStyle style) => ansiSetTextStyles(
         bold: (style == FontStyle.bold || style == FontStyle.boldUnderscore),
         underscore: (style == FontStyle.underscore || style == FontStyle.boldUnderscore));
-  }
 
   String _resetFontStyle() => ansiResetColor;
 
@@ -460,9 +444,9 @@ class Table {
 
     // Print table rows
     final startRow = showHeader ? 0 : 1;
-    for (int row = startRow; row < _table.length; row++) {
+    for (var row = startRow; row < _table.length; row++) {
       final wrappedRow = <String>[];
-      for (int column = 0; column < columns; column++) {
+      for (var column = 0; column < columns; column++) {
         // Wrap the text if there's a viable width
         if (column < _columnWidths.length && _columnWidths[column] > 0) {
           wrappedRow.add(_table[row][column].toString().wrapText(_columnWidths[column]));
@@ -473,11 +457,11 @@ class Table {
       // Count number of lines in each row
       final rowHeight = _calculateRowHeight(wrappedRow);
 
-      for (int line = 0; line < rowHeight; line++) {
+      for (var line = 0; line < rowHeight; line++) {
         buffer.write(_rowStart());
 
-        for (int column = 0; column < columns; column++) {
-          final lines = wrappedRow[column].toString().split('\n');
+        for (var column = 0; column < columns; column++) {
+          final lines = wrappedRow[column].split('\n');
           final cell = line < lines.length ? lines[line] : '';
           final columnAlignment = column < _columnAlignments.length ? _columnAlignments[column] : TextAlignment.left;
 

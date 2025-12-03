@@ -2,13 +2,13 @@
 /// input in readline(). It doesn't support history editing a la bash,
 /// but it should handle the most common use cases.
 class ScrollbackBuffer {
+
+  // called by Console.scolling()
+  ScrollbackBuffer({required this.recordBlanks});
   final lineList = <String>[];
   int? lineIndex;
   String? currentLineBuffer;
   bool recordBlanks;
-
-  // called by Console.scolling()
-  ScrollbackBuffer({required this.recordBlanks});
 
   /// Add a new line to the scrollback buffer. This would normally happen
   /// when the user finishes typing/editing the line and taps the 'enter'

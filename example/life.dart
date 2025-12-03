@@ -11,7 +11,7 @@ final int rows = console.windowHeight;
 final int cols = console.windowWidth;
 final int size = rows * cols;
 
-final temp = List<bool>.filled(size, false, growable: false);
+final temp = List<bool>.filled(size, false);
 final data = List<bool>.generate(size, (i) => random.nextBool(), growable: false);
 
 final buffer = StringBuffer();
@@ -75,7 +75,7 @@ void update() {
       final n = numLiveNeighbors(row, col);
       final index = row * rows + col;
       final v = data[index];
-      temp[index] = (v == true && (n == 2 || n == 3)) || (v == false && n == 3);
+      temp[index] = (v && (n == 2 || n == 3)) || (!v && n == 3);
     }
   }
   data.setAll(0, temp);
@@ -87,7 +87,6 @@ void input() {
     switch (key.controlChar) {
       case ControlCharacter.escape:
         done = true;
-        break;
       default:
     }
   }

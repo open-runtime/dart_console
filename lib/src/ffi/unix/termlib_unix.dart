@@ -17,6 +17,17 @@ import 'termios.dart';
 import 'unistd.dart';
 
 class TermLibUnix implements TermLib {
+
+  TermLibUnix() {
+    _stdlib = Platform.isMacOS ? DynamicLibrary.open('/usr/lib/libSystem.dylib') : DynamicLibrary.open('libc.so.6');
+
+    tcgetattr = _stdlib.lookupFunction<TCGetAttrNative, TCGetAttrDart>('tcgetattr');
+    tcsetattr = _stdlib.lookupFunction<TCSetAttrNative, TCSetAttrDart>('tcsetattr');
+
+    // store console mode settings so we can return them again as necessary
+    _origTermIOSPointer = calloc<TermIOS>();
+    tcgetattr(STDIN_FILENO, _origTermIOSPointer);
+  }
   late final DynamicLibrary _stdlib;
 
   late final Pointer<TermIOS> _origTermIOSPointer;
@@ -60,16 +71,5 @@ class TermLibUnix implements TermLib {
   void disableRawMode() {
     if (nullptr == _origTermIOSPointer.cast()) return;
     tcsetattr(STDIN_FILENO, TCSANOW, _origTermIOSPointer);
-  }
-
-  TermLibUnix() {
-    _stdlib = Platform.isMacOS ? DynamicLibrary.open('/usr/lib/libSystem.dylib') : DynamicLibrary.open('libc.so.6');
-
-    tcgetattr = _stdlib.lookupFunction<TCGetAttrNative, TCGetAttrDart>('tcgetattr');
-    tcsetattr = _stdlib.lookupFunction<TCSetAttrNative, TCSetAttrDart>('tcsetattr');
-
-    // store console mode settings so we can return them again as necessary
-    _origTermIOSPointer = calloc<TermIOS>();
-    tcgetattr(STDIN_FILENO, _origTermIOSPointer);
   }
 }

@@ -47,7 +47,7 @@ void main() {
 
     expect(yellowHello.displayWidth, equals(5));
 
-    final paddedWidth = 7;
+    const paddedWidth = 7;
     final padding = ((paddedWidth - yellowHello.displayWidth) / 2).round();
     expect(padding, equals(1));
 

@@ -23,6 +23,24 @@ import '../dart_console.dart';
 ///
 /// If there is no terminal, the progress bar will not be drawn.
 class ProgressBar {
+
+  ProgressBar(
+      {this.maxValue = 100,
+      Coordinate? startCoordinate,
+      int? barWidth,
+      this.showSpinner = true,
+      this.tickCharacters = const <String>['-', r'\', '|', '/']}) {
+    if (!_console.hasTerminal) {
+      _shouldDrawProgress = false;
+    } else {
+      _shouldDrawProgress = true;
+      _startCoordinate = startCoordinate ?? _console.cursorPosition;
+      _width = barWidth ?? _console.windowWidth;
+      _innerWidth = (barWidth ?? _console.windowWidth) - 2;
+
+      _printProgressBar('[${' ' * _innerWidth}]');
+    }
+  }
   /// The value that represents completion of the progress bar.
   ///
   /// By default, the progress bar shows a percentage value from 0 to 100.
@@ -54,27 +72,9 @@ class ProgressBar {
   /// This represents the number of characters available for drawing progress.
   late final int _innerWidth;
 
-  int _tickCount = 0;
+  var _tickCount = 0;
 
   final _console = Console();
-
-  ProgressBar(
-      {this.maxValue = 100,
-      Coordinate? startCoordinate,
-      int? barWidth,
-      this.showSpinner = true,
-      this.tickCharacters = const <String>['-', '\\', '|', '/']}) {
-    if (!_console.hasTerminal) {
-      _shouldDrawProgress = false;
-    } else {
-      _shouldDrawProgress = true;
-      _startCoordinate = startCoordinate ?? _console.cursorPosition;
-      _width = barWidth ?? _console.windowWidth;
-      _innerWidth = (barWidth ?? _console.windowWidth) - 2;
-
-      _printProgressBar('[${' ' * _innerWidth}]');
-    }
-  }
 
   /// Clear the progress bar from the terminal, allowing other logging to be
   /// printed.

@@ -9,60 +9,60 @@
 import 'dart:ffi';
 
 // INPUT FLAGS
-const int IGNBRK = 0x00000001; // ignore BREAK condition
-const int BRKINT = 0x00000002; // map BREAK to SIGINTR
-const int IGNPAR = 0x00000004; // ignore (discard) parity errors
-const int PARMRK = 0x00000008; // mark parity and framing errors
-const int INPCK = 0x00000010; // enable checking of parity errors
-const int ISTRIP = 0x00000020; // strip 8th bit off chars
-const int INLCR = 0x00000040; // map NL into CR
-const int IGNCR = 0x00000080; // ignore CR
-const int ICRNL = 0x00000100; // map CR to NL (ala CRMOD)
-const int IXON = 0x00000200; // enable output flow control
-const int IXOFF = 0x00000400; // enable input flow control
-const int IXANY = 0x00000800; // any char will restart after stop
-const int IMAXBEL = 0x00002000; // ring bell on input queue full
-const int IUTF8 = 0x00004000; // maintain state for UTF-8 VERASE
+const IGNBRK = 0x00000001; // ignore BREAK condition
+const BRKINT = 0x00000002; // map BREAK to SIGINTR
+const IGNPAR = 0x00000004; // ignore (discard) parity errors
+const PARMRK = 0x00000008; // mark parity and framing errors
+const INPCK = 0x00000010; // enable checking of parity errors
+const ISTRIP = 0x00000020; // strip 8th bit off chars
+const INLCR = 0x00000040; // map NL into CR
+const IGNCR = 0x00000080; // ignore CR
+const ICRNL = 0x00000100; // map CR to NL (ala CRMOD)
+const IXON = 0x00000200; // enable output flow control
+const IXOFF = 0x00000400; // enable input flow control
+const IXANY = 0x00000800; // any char will restart after stop
+const IMAXBEL = 0x00002000; // ring bell on input queue full
+const IUTF8 = 0x00004000; // maintain state for UTF-8 VERASE
 
 // OUTPUT FLAGS
-const int OPOST = 0x00000001; // enable following output processing
-const int ONLCR = 0x00000002; // map NL to CR-NL (ala CRMOD)
-const int OXTABS = 0x00000004; // expand tabs to spaces
-const int ONOEOT = 0x00000008; // discard EOT's (^D) on output)
+const OPOST = 0x00000001; // enable following output processing
+const ONLCR = 0x00000002; // map NL to CR-NL (ala CRMOD)
+const OXTABS = 0x00000004; // expand tabs to spaces
+const ONOEOT = 0x00000008; // discard EOT's (^D) on output)
 
 // CONTROL FLAGS
-const int CIGNORE = 0x00000001; // ignore control flags
-const int CSIZE = 0x00000300; // character size mask
-const int CS5 = 0x00000000; // 5 bits (pseudo)
-const int CS6 = 0x00000100; // 6 bits
-const int CS7 = 0x00000200; // 7 bits
-const int CS8 = 0x00000300; // 8 bits
+const CIGNORE = 0x00000001; // ignore control flags
+const CSIZE = 0x00000300; // character size mask
+const CS5 = 0x00000000; // 5 bits (pseudo)
+const CS6 = 0x00000100; // 6 bits
+const CS7 = 0x00000200; // 7 bits
+const CS8 = 0x00000300; // 8 bits
 
 // LOCAL FLAGS
-const int ECHOKE = 0x00000001; // visual erase for line kill
-const int ECHOE = 0x00000002; // visually erase chars
-const int ECHOK = 0x00000004; // echo NL after line kill
-const int ECHO = 0x00000008; // enable echoing
-const int ECHONL = 0x00000010; // echo NL even if ECHO is off
-const int ECHOPRT = 0x00000020; // visual erase mode for hardcopy
-const int ECHOCTL = 0x00000040; // echo control chars as ^(Char)
-const int ISIG = 0x00000080; // enable signals INTR, QUIT, [D]SUSP
-const int ICANON = 0x00000100; // canonicalize input lines
-const int ALTWERASE = 0x00000200; // use alternate WERASE algorithm
-const int IEXTEN = 0x00000400; // enable DISCARD and LNEXT
-const int EXTPROC = 0x00000800; // external processing
-const int TOSTOP = 0x00400000; // stop background jobs from output
-const int FLUSHO = 0x00800000; // output being flushed (state)
-const int NOKERNINFO = 0x02000000; // no kernel output from VSTATUS
-const int PENDIN = 0x20000000; // retype pending input (state)
-const int NOFLSH = 0x80000000; // don't flush after interrupt
+const ECHOKE = 0x00000001; // visual erase for line kill
+const ECHOE = 0x00000002; // visually erase chars
+const ECHOK = 0x00000004; // echo NL after line kill
+const ECHO = 0x00000008; // enable echoing
+const ECHONL = 0x00000010; // echo NL even if ECHO is off
+const ECHOPRT = 0x00000020; // visual erase mode for hardcopy
+const ECHOCTL = 0x00000040; // echo control chars as ^(Char)
+const ISIG = 0x00000080; // enable signals INTR, QUIT, [D]SUSP
+const ICANON = 0x00000100; // canonicalize input lines
+const ALTWERASE = 0x00000200; // use alternate WERASE algorithm
+const IEXTEN = 0x00000400; // enable DISCARD and LNEXT
+const EXTPROC = 0x00000800; // external processing
+const TOSTOP = 0x00400000; // stop background jobs from output
+const FLUSHO = 0x00800000; // output being flushed (state)
+const NOKERNINFO = 0x02000000; // no kernel output from VSTATUS
+const PENDIN = 0x20000000; // retype pending input (state)
+const NOFLSH = 0x80000000; // don't flush after interrupt
 
-const int TCSANOW = 0; // make change immediate
-const int TCSADRAIN = 1; // drain output, then change
-const int TCSAFLUSH = 2; // drain output, flush input
+const TCSANOW = 0; // make change immediate
+const TCSADRAIN = 1; // drain output, then change
+const TCSAFLUSH = 2; // drain output, flush input
 
-const int VMIN = 16; // minimum number of characters to receive
-const int VTIME = 17; // time in 1/10s before returning
+const VMIN = 16; // minimum number of characters to receive
+const VTIME = 17; // time in 1/10s before returning
 
 // typedef unsigned long   tcflag_t;
 typedef tcflag_t = UnsignedLong;

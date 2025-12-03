@@ -6,10 +6,6 @@ import 'table.dart';
 import 'textalignment.dart';
 
 class Calendar extends Table {
-  final DateTime calendarDate;
-  bool highlightTodaysDate = true;
-
-  List<String> dayLabels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
   Calendar(DateTime dateTime) : calendarDate = dateTime.subtract(Duration(days: dateTime.day - 1)) {
     for (final day in dayLabels) {
@@ -46,4 +42,8 @@ class Calendar extends Table {
   }
 
   factory Calendar.now() => Calendar(DateTime.now());
+  final DateTime calendarDate;
+  bool highlightTodaysDate = true;
+
+  List<String> dayLabels = <String>['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 }

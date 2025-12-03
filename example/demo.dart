@@ -26,7 +26,6 @@ List<Function> demoScreens = <Function>[
     console.hideCursor();
 
     final progressBar = ProgressBar(
-      maxValue: 100,
       startCoordinate: Coordinate(row, 4),
       barWidth: max(console.windowWidth - 10, 10),
       showSpinner: false,
@@ -57,7 +56,7 @@ List<Function> demoScreens = <Function>[
         '${console.windowHeight} rows.');
     console.writeLine();
 
-    console.writeLine('This text is left aligned.', TextAlignment.left);
+    console.writeLine('This text is left aligned.');
     console.writeLine('This text is center aligned.', TextAlignment.center);
     console.writeLine('This text is right aligned.', TextAlignment.right);
 

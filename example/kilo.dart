@@ -443,7 +443,6 @@ void editorMoveCursor(ControlCharacter key) {
         cursorRow--;
         cursorCol = fileRows[cursorRow].length;
       }
-      break;
     case ControlCharacter.arrowRight:
       if (cursorRow < fileRows.length) {
         if (cursorCol < fileRows[cursorRow].length) {
@@ -453,33 +452,26 @@ void editorMoveCursor(ControlCharacter key) {
           cursorRow++;
         }
       }
-      break;
     case ControlCharacter.arrowUp:
       if (cursorRow != 0) cursorRow--;
-      break;
     case ControlCharacter.arrowDown:
       if (cursorRow < fileRows.length) cursorRow++;
-      break;
     case ControlCharacter.pageUp:
       cursorRow = screenFileRowOffset;
       for (var i = 0; i < editorWindowHeight; i++) {
         editorMoveCursor(ControlCharacter.arrowUp);
       }
-      break;
     case ControlCharacter.pageDown:
       cursorRow = screenFileRowOffset + editorWindowHeight - 1;
       for (var i = 0; i < editorWindowHeight; i++) {
         editorMoveCursor(ControlCharacter.arrowDown);
       }
-      break;
     case ControlCharacter.home:
       cursorCol = 0;
-      break;
     case ControlCharacter.end:
       if (cursorRow < fileRows.length) {
         cursorCol = fileRows[cursorRow].length;
       }
-      break;
     default:
   }
 
@@ -495,24 +487,18 @@ void editorProcessKeypress() {
     switch (key.controlChar) {
       case ControlCharacter.ctrlQ:
         editorQuit();
-        break;
       case ControlCharacter.ctrlS:
         editorSave();
-        break;
       case ControlCharacter.ctrlF:
         editorFind();
-        break;
       case ControlCharacter.backspace:
       case ControlCharacter.ctrlH:
         editorBackspaceChar();
-        break;
       case ControlCharacter.delete:
         editorMoveCursor(ControlCharacter.arrowRight);
         editorBackspaceChar();
-        break;
       case ControlCharacter.enter:
         editorInsertNewline();
-        break;
       case ControlCharacter.arrowLeft:
       case ControlCharacter.arrowUp:
       case ControlCharacter.arrowRight:
@@ -522,13 +508,10 @@ void editorProcessKeypress() {
       case ControlCharacter.home:
       case ControlCharacter.end:
         editorMoveCursor(key.controlChar);
-        break;
       case ControlCharacter.ctrlA:
         editorMoveCursor(ControlCharacter.home);
-        break;
       case ControlCharacter.ctrlE:
         editorMoveCursor(ControlCharacter.end);
-        break;
       default:
     }
   } else {

@@ -15,6 +15,11 @@ import 'package:win32/win32.dart';
 import '../termlib.dart';
 
 class TermLibWindows implements TermLib {
+
+  TermLibWindows() {
+    outputHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+    inputHandle = GetStdHandle(STD_INPUT_HANDLE);
+  }
   late final int inputHandle;
   late final int outputHandle;
 
@@ -30,13 +35,13 @@ class TermLibWindows implements TermLib {
 
   @override
   void enableRawMode() {
-    final dwMode = (~ENABLE_ECHO_INPUT) & (~ENABLE_PROCESSED_INPUT) & (~ENABLE_LINE_INPUT) & (~ENABLE_WINDOW_INPUT);
+    const dwMode = (~ENABLE_ECHO_INPUT) & (~ENABLE_PROCESSED_INPUT) & (~ENABLE_LINE_INPUT) & (~ENABLE_WINDOW_INPUT);
     SetConsoleMode(inputHandle, dwMode);
   }
 
   @override
   void disableRawMode() {
-    final dwMode = ENABLE_ECHO_INPUT &
+    const dwMode = ENABLE_ECHO_INPUT &
         ENABLE_EXTENDED_FLAGS &
         ENABLE_INSERT_MODE &
         ENABLE_LINE_INPUT &
@@ -98,10 +103,5 @@ class TermLibWindows implements TermLib {
     } finally {
       calloc.free(coord);
     }
-  }
-
-  TermLibWindows() {
-    outputHandle = GetStdHandle(STD_OUTPUT_HANDLE);
-    inputHandle = GetStdHandle(STD_INPUT_HANDLE);
   }
 }

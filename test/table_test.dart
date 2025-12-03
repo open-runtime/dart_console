@@ -160,13 +160,13 @@ void main() {
         ..borderStyle = BorderStyle.double
         ..borderType = BorderType.grid
         ..headerStyle = FontStyle.boldUnderscore
-        ..insertColumn(header: 'Strings', alignment: TextAlignment.left)
+        ..insertColumn(header: 'Strings')
         ..insertColumn(header: 'Coordinates', alignment: TextAlignment.right)
         ..insertColumn(header: 'Integers', alignment: TextAlignment.right)
         ..insertColumn(header: 'Doubles', alignment: TextAlignment.right)
-        ..insertRow(['qwertyuiop', Coordinate(0, 0), 0, 1.234567])
-        ..insertRow(['asdfghjkl', Coordinate(80, 24), 2 << 60, math.pi])
-        ..insertRow(['zxcvbnm', Coordinate(17, 17), 42, math.e]);
+        ..insertRow(['qwertyuiop', const Coordinate(0, 0), 0, 1.234567])
+        ..insertRow(['asdfghjkl', const Coordinate(80, 24), 2 << 60, math.pi])
+        ..insertRow(['zxcvbnm', const Coordinate(17, 17), 42, math.e]);
       expect(table.render(), equals('''
 [92m╔════════════╦═════════════╦═════════════════════╦═══════════════════╗[m
 [92m║ [m[1;4mStrings   [m[92m ║ [m[1;4mCoordinates[m[92m ║ [m[1;4m           Integers[m[92m ║ [m[1;4m          Doubles[m[92m ║[m
@@ -332,7 +332,7 @@ apricots   7
         ..insertRow(['dates', '10000', 'a big number'])
         ..insertRow(['kumquats', '59']);
 
-      final golden = '''
+      const golden = '''
 Fruit      Qty Notes       
 apples      10             
 bananas      5             

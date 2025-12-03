@@ -37,14 +37,6 @@ class Coordinate extends Point<int> {
 /// A comprehensive set of demos of using the Console class can be found in the
 /// `examples/` subdirectory.
 class Console {
-  bool _isRawMode = false;
-
-  final _termlib = TermLib();
-
-  // Declare the type explicitly: Initializing the _scrollbackBuffer
-  // in the constructor means that we can no longer infer the type
-  // here.
-  final ScrollbackBuffer? _scrollbackBuffer;
 
   // Declaring the named constructor means that Dart no longer
   // supplies the default constructor. Besides, we need to set
@@ -56,6 +48,14 @@ class Console {
   // Use `Console.scrolling(recordBlanks: false)` to omit blank lines
   // from console history
   Console.scrolling({bool recordBlanks = true}) : _scrollbackBuffer = ScrollbackBuffer(recordBlanks: recordBlanks);
+  var _isRawMode = false;
+
+  final _termlib = TermLib();
+
+  // Declare the type explicitly: Initializing the _scrollbackBuffer
+  // in the constructor means that we can no longer infer the type
+  // here.
+  final ScrollbackBuffer? _scrollbackBuffer;
 
   /// Enables or disables raw mode.
   ///
@@ -397,22 +397,16 @@ class Console {
         switch (escapeSequence[1]) {
           case 'A':
             key.controlChar = ControlCharacter.arrowUp;
-            break;
           case 'B':
             key.controlChar = ControlCharacter.arrowDown;
-            break;
           case 'C':
             key.controlChar = ControlCharacter.arrowRight;
-            break;
           case 'D':
             key.controlChar = ControlCharacter.arrowLeft;
-            break;
           case 'H':
             key.controlChar = ControlCharacter.home;
-            break;
           case 'F':
             key.controlChar = ControlCharacter.end;
-            break;
           default:
             if (escapeSequence[1].codeUnits[0] > '0'.codeUnits[0] &&
                 escapeSequence[1].codeUnits[0] < '9'.codeUnits[0]) {
@@ -428,25 +422,18 @@ class Console {
                 switch (escapeSequence[1]) {
                   case '1':
                     key.controlChar = ControlCharacter.home;
-                    break;
                   case '3':
                     key.controlChar = ControlCharacter.delete;
-                    break;
                   case '4':
                     key.controlChar = ControlCharacter.end;
-                    break;
                   case '5':
                     key.controlChar = ControlCharacter.pageUp;
-                    break;
                   case '6':
                     key.controlChar = ControlCharacter.pageDown;
-                    break;
                   case '7':
                     key.controlChar = ControlCharacter.home;
-                    break;
                   case '8':
                     key.controlChar = ControlCharacter.end;
-                    break;
                   default:
                     key.controlChar = ControlCharacter.unknown;
                 }
@@ -466,22 +453,16 @@ class Console {
         switch (escapeSequence[1]) {
           case 'H':
             key.controlChar = ControlCharacter.home;
-            break;
           case 'F':
             key.controlChar = ControlCharacter.end;
-            break;
           case 'P':
             key.controlChar = ControlCharacter.F1;
-            break;
           case 'Q':
             key.controlChar = ControlCharacter.F2;
-            break;
           case 'R':
             key.controlChar = ControlCharacter.F3;
-            break;
           case 'S':
             key.controlChar = ControlCharacter.F4;
-            break;
           default:
         }
       } else if (escapeSequence[0] == 'b') {
@@ -548,21 +529,17 @@ class Console {
             return buffer;
           case ControlCharacter.ctrlC:
             if (cancelOnBreak) return null;
-            break;
           case ControlCharacter.escape:
             if (cancelOnEscape) return null;
-            break;
           case ControlCharacter.backspace:
           case ControlCharacter.ctrlH:
             if (index > 0) {
               buffer = buffer.substring(0, index - 1) + buffer.substring(index);
               index--;
             }
-            break;
           case ControlCharacter.ctrlU:
             buffer = buffer.substring(index, buffer.length);
             index = 0;
-            break;
           case ControlCharacter.delete:
           case ControlCharacter.ctrlD:
             if (index < buffer.length) {
@@ -570,20 +547,16 @@ class Console {
             } else if (cancelOnEOF) {
               return null;
             }
-            break;
           case ControlCharacter.ctrlK:
             buffer = buffer.substring(0, index);
-            break;
           case ControlCharacter.arrowLeft:
           case ControlCharacter.ctrlB:
             index = index > 0 ? index - 1 : index;
-            break;
           case ControlCharacter.arrowUp:
             if (_scrollbackBuffer != null) {
               buffer = _scrollbackBuffer!.up(buffer);
               index = buffer.length;
             }
-            break;
           case ControlCharacter.arrowDown:
             if (_scrollbackBuffer != null) {
               final temp = _scrollbackBuffer!.down();
@@ -592,33 +565,27 @@ class Console {
                 index = buffer.length;
               }
             }
-            break;
           case ControlCharacter.arrowRight:
           case ControlCharacter.ctrlF:
             index = index < buffer.length ? index + 1 : index;
-            break;
           case ControlCharacter.wordLeft:
             if (index > 0) {
               final bufferLeftOfCursor = buffer.substring(0, index - 1);
               final lastSpace = bufferLeftOfCursor.lastIndexOf(' ');
               index = lastSpace != -1 ? lastSpace + 1 : 0;
             }
-            break;
           case ControlCharacter.wordRight:
             if (index < buffer.length) {
               final bufferRightOfCursor = buffer.substring(index + 1);
               final nextSpace = bufferRightOfCursor.indexOf(' ');
               index = nextSpace != -1 ? min(index + nextSpace + 2, buffer.length) : buffer.length;
             }
-            break;
           case ControlCharacter.home:
           case ControlCharacter.ctrlA:
             index = 0;
-            break;
           case ControlCharacter.end:
           case ControlCharacter.ctrlE:
             index = buffer.length;
-            break;
           default:
             break;
         }

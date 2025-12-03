@@ -50,12 +50,10 @@ extension StringUtils on String {
     }
   }
 
-  String stripEscapeCharacters() {
-    return replaceAll(RegExp(r'\x1b\[[\x30-\x3f]*[\x20-\x2f]*[\x40-\x7e]'), '')
+  String stripEscapeCharacters() => replaceAll(RegExp(r'\x1b\[[\x30-\x3f]*[\x20-\x2f]*[\x40-\x7e]'), '')
         .replaceAll(RegExp(r'\x1b[PX^_].*?\x1b\\'), '')
         .replaceAll(RegExp(r'\x1b\][^\a]*(?:\a|\x1b\\)'), '')
         .replaceAll(RegExp(r'\x1b[\[\]A-Z\\^_@]'), '');
-  }
 
   /// The number of displayed character cells that are represented by the
   /// string.
@@ -81,7 +79,7 @@ extension StringUtils on String {
     const nineCodeUnit = 0x39;
 
     final buffer = StringBuffer();
-    for (var c in characters) {
+    for (final c in characters) {
       final firstCodeUnit = c.codeUnits.first;
       if (c.codeUnits.length == 1 && firstCodeUnit >= zeroCodeUnit && firstCodeUnit <= nineCodeUnit) {
         buffer.write(replacementNumerals[firstCodeUnit - zeroCodeUnit]);
